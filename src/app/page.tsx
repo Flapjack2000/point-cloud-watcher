@@ -1,27 +1,33 @@
 "use client"
 
-import PointCloud from "../components/pointCloud"
+import { Card } from "@/components/ui/card";
+import { SidebarProvider } from "@/components/ui/sidebar";
+
+import PCSphere from "../components/PCSphere"
+import ControlSidebar from "../components/controlSidebar"
+
 import { useEffect, useState, useRef } from "react"
 import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
 
 function Home() {
-  const particlesCount = 1000;
-  const particlePositions = new Float32Array(particlesCount * 3);
+  // use for resetting camera
   const orbitControlsRef = useRef<OrbitControlsType | null>(null);
 
 
-  for (let i = 0; i < particlesCount; i++) {
-    const i3 = i * 3;
-    particlePositions[i3] = ((Math.random() - 0.5) * 10); // x
-    particlePositions[i3 + 1] = ((Math.random() - 0.5) * 10) // y
-    particlePositions[i3 + 2] = ((Math.random() - 0.5) * 10); // z
-  }
+
 
   return (
     <>
-      <div className="h-[100%]">
+      <SidebarProvider>
+        <ControlSidebar />
+
+      </SidebarProvider>
+
+
+
+      <div className="h-[100%] fixed">
         <Canvas
           style={{
             zIndex: 0,
@@ -39,11 +45,14 @@ function Home() {
             camera.updateProjectionMatrix();
             orbitControlsRef.current?.saveState(); // Records camera pos/rot for reset button
           }}>
-          <PointCloud count={100000} />
-          <ambientLight intensity={0.5} />
+
+
+          <PCSphere count={3000000} />
+          <ambientLight intensity={0.2} />
           <pointLight position={[10, 10, 10]} />
           <OrbitControls />
-          <axesHelper args={[5]} /> {/* The 'args' prop passes arguments to the AxesHelper constructor (size) */}
+          <axesHelper args={[10]} />
+
         </Canvas>
       </div>
     </>

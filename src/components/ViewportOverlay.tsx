@@ -3,9 +3,16 @@ import { SwitchCamera } from "lucide-react";
 import { Shapes } from "lucide-react";
 
 
-function ViewportButton(props: any) {
+type ViewportButtonProps = {
+  icon: React.ComponentType<{ color?: string; size?: number }>;
+  text: string;
+  action: () => void;
+  condition?: boolean;
+};
+
+function ViewportButton(props: ViewportButtonProps) {
   return (
-    <Tooltip >
+    <Tooltip>
       <TooltipTrigger
         onClick={props.action}
         className="cursor-pointer opacity-20 hover:opacity-100 transition-opacity duration-50 flex items-center justify-center rounded-md p-2">
@@ -14,7 +21,8 @@ function ViewportButton(props: any) {
       <TooltipContent style={{ userSelect: "none" }}>
         {props.text}
       </TooltipContent>
-    </Tooltip >)
+    </Tooltip>
+  );
 }
 
 function ViewportOverlay(props: any) {

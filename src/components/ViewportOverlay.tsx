@@ -25,7 +25,11 @@ function ViewportButton(props: ViewportButtonProps) {
   );
 }
 
-function ViewportOverlay(props: any) {
+type ViewportOverlayProps = {
+  resetCamera: () => void;
+};
+
+function ViewportOverlay(props: ViewportOverlayProps) {
   return (
     <div
       className="

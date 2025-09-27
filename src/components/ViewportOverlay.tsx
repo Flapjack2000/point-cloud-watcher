@@ -1,5 +1,6 @@
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip"
-import { Shapes, SwitchCamera } from "lucide-react";
+import { SwitchCamera } from "lucide-react";
+import { Shapes } from "lucide-react";
 
 
 function ViewportButton(props: any) {

@@ -18,9 +18,6 @@ export default function ControlSidebar() {
   return (
     <>
       <Sidebar>
-
-
-
         <SidebarRail title="Toggle Sidebar (CTRL+B)" />
       </Sidebar>
 

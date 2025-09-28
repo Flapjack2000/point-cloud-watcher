@@ -15,9 +15,11 @@ function ViewportButton(props: ViewportButtonProps) {
     <Tooltip>
       <TooltipTrigger
         onClick={props.action}
-        className="cursor-pointer opacity-20 hover:opacity-100 transition-opacity duration-50 flex items-center justify-center rounded-md p-2">
+        className=" cursor-pointer opacity-20 hover:opacity-100 transition-opacity duration-50 flex items-center justify-center rounded-md p-2">
+
         <props.icon color="black" size={24} />
       </TooltipTrigger>
+
       <TooltipContent style={{ userSelect: "none" }}>
         {props.text}
       </TooltipContent>

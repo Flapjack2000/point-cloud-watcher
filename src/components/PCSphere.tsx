@@ -1,12 +1,19 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useContext } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useState } from 'react';
+
+import { ParticleCountContext } from '@/app/page';
 
 interface PointCloudProps {
   count?: number;
 }
 
-const PCSphere: React.FC<PointCloudProps> = ({ count = 5000 }) => {
+const PCSphere: React.FC<PointCloudProps> = () => {
+  const context = useContext(ParticleCountContext);
+  const count = context?.count ?? 0;
+  const particleSize = context?.particleSize ?? 0.01
+
   const mesh = useRef<THREE.Points>(null);
 
   // Generate random points in a sphere
@@ -32,9 +39,9 @@ const PCSphere: React.FC<PointCloudProps> = ({ count = 5000 }) => {
 
       // Color based on position
       color.setHSL(
-        ((((radius / 2) * 0.7) + 0.1)), // Hue based on distance from center
-        1,
-        .5 // Lightness variation
+        ((radius / 2 * 0.7) + 0.1), // Hue based on distance from center
+        1, // Full saturation
+        0.5 // Lightness variation
       );
 
       colors[i * 3] = color.r;
@@ -67,7 +74,7 @@ const PCSphere: React.FC<PointCloudProps> = ({ count = 5000 }) => {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.002}
+        size={particleSize}
         vertexColors
         transparent
         opacity={0.8}

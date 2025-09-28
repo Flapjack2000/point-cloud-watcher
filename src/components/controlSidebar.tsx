@@ -124,7 +124,7 @@ export default function ControlSidebar() {
 
             <p className="p-2 pl-0">
               <span
-                title=""
+                title="Whether hues should be spread over the cloud's radius or repeat."
                 className="pr-2 font-bold">
                 Banded Colors:
               </span>

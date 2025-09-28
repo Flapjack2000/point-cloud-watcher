@@ -25,13 +25,15 @@ const PCSphere: React.FC<PointCloudProps> = () => {
 
     for (let i = 0; i < count; i++) {
       // Generate points in a sphere using spherical coordinates
-      const radius = Math.random() * 2;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(Math.random() * 2 - 1);
+      const pos = {
+        radius: Math.random() * 2,
+        theta: Math.random() * Math.PI * 2,
+        phi: Math.acos(Math.random() * 2 - 1)
+      }
 
-      const x = radius * Math.sin(phi) * Math.cos(theta);
-      const y = radius * Math.sin(phi) * Math.sin(theta);
-      const z = radius * Math.cos(phi);
+      const x = pos.radius * Math.sin(pos.phi) * Math.cos(pos.theta);
+      const y = pos.radius * Math.sin(pos.phi) * Math.sin(pos.theta);
+      const z = pos.radius * Math.cos(pos.phi);
 
       positions[i * 3] = x;
       positions[i * 3 + 1] = y;
@@ -39,7 +41,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
 
       // Color based on position
       color.setHSL(
-        ((radius / 2 * 0.7) + 0.1), // Hue based on distance from center
+        ((pos.radius / 2 * 0.7) + 0.1), // Hue based on distance from center
         1, // Full saturation
         0.5 // Lightness variation
       );

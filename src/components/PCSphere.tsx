@@ -3,16 +3,18 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useState } from 'react';
 
-import { ParticleCountContext } from '@/app/page';
+import { ControlsContext } from '@/app/page';
 
 interface PointCloudProps {
   count?: number;
 }
 
 const PCSphere: React.FC<PointCloudProps> = () => {
-  const context = useContext(ParticleCountContext);
+  const context = useContext(ControlsContext);
   const count = context?.count ?? 0;
   const particleSize = context?.particleSize ?? 0.01
+  const sphereRadius = context?.radius ?? 10
+
 
   const mesh = useRef<THREE.Points>(null);
 
@@ -26,7 +28,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
     for (let i = 0; i < count; i++) {
       // Generate points in a sphere using spherical coordinates
       const pos = {
-        radius: Math.random() * 2,
+        radius: Math.random() * sphereRadius,
         theta: Math.random() * Math.PI * 2,
         phi: Math.acos(Math.random() * 2 - 1)
       }
@@ -41,7 +43,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
 
       // Color based on position
       color.setHSL(
-        ((pos.radius / 2 * 0.7) + 0.1), // Hue based on distance from center
+        ((pos.radius / sphereRadius * 0.7) + 0.1), // Hue based on distance from center
         1, // Full saturation
         0.5 // Lightness variation
       );
@@ -52,7 +54,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
     }
 
     return [positions, colors];
-  }, [count]);
+  }, [count, sphereRadius]);
 
   // Animate the point cloud
   useFrame((state) => {
@@ -81,6 +83,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
         transparent
         opacity={0.8}
         sizeAttenuation
+        premultipliedAlpha={true}
         blending={THREE.NormalBlending}
       />
     </points>

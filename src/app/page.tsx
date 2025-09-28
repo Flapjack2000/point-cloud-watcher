@@ -14,28 +14,62 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
 
-type ParticleCountContextType = {
-  count: number;
+type ControlsContextType = {
+  count: number
+  maxCount: number;
+  minCount: number;
   particleSize: number;
+  maxParticleSize: number,
+  minParticleSize: number,
+
+  radius: number;
+  maxRadius: number;
+  minRadius: number;
+
   setCount: React.Dispatch<React.SetStateAction<number>>;
   setParticleSize: React.Dispatch<React.SetStateAction<number>>;
+  setRadius: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const ParticleCountContext = createContext<ParticleCountContextType | undefined>(undefined);
+export const ControlsContext = createContext<ControlsContextType | undefined>(undefined);
 
-function ParticleCountProvider({ children }: { children: React.ReactNode }) {
-  const [count, setCount] = useState(1000000);
-  const [particleSize, setParticleSize] = useState(0.01)
-  const [radius, setRadius] = useState(10);
+function ControlsProvider({ children }: { children: React.ReactNode }) {
+
+  const [count, setCount] = useState(500000);
+  const maxCount = 1000000;
+  const minCount = 0;
+
+  const [particleSize, setParticleSize] = useState(0.02);
+  const maxParticleSize = 1;
+  const minParticleSize = 0.001;
+
+  const [radius, setRadius] = useState(2);
+  const maxRadius = 1000;
+  const minRadius = 1;
 
 
 
-  const prop = { count, setCount, particleSize, setParticleSize };
+  const controlsProp = {
+    count,
+    setCount,
+    minCount,
+    maxCount,
+
+    radius,
+    setRadius,
+    maxRadius,
+    minRadius,
+
+    particleSize,
+    setParticleSize,
+    maxParticleSize,
+    minParticleSize,
+  };
 
   return (
-    <ParticleCountContext.Provider value={prop}>
+    <ControlsContext.Provider value={controlsProp}>
       {children}
-    </ParticleCountContext.Provider>
+    </ControlsContext.Provider>
   );
 }
 
@@ -43,29 +77,28 @@ function Home() {
 
   const orbitControlsRef = useRef<OrbitControlsType | null>(null);
 
+  const [showAxes, setShowAxes] = useState(true);
+  const toggleAxes = () => { setShowAxes(!showAxes) }
+
   function resetCamera() {
     if (orbitControlsRef.current) {
       const damp = orbitControlsRef.current.enableDamping;
       orbitControlsRef.current.enableDamping = false;
-
-      // Reset must be called multiple times. If it's only called once, it'll only get close to the reset position for some reason.
-      // Using two calls works, but I'm using three just in case.
       orbitControlsRef.current.reset();
       orbitControlsRef.current.reset();
       orbitControlsRef.current.reset();
-
       if (damp) { orbitControlsRef.current.enableDamping = true; }
     }
   }
 
   return (
     <>
-      <ParticleCountProvider>
+      <ControlsProvider>
         <SidebarProvider>
           <ControlSidebar />
         </SidebarProvider>
 
-        <ViewportOverlay resetCamera={resetCamera} />
+        <ViewportOverlay toggleAxes={toggleAxes} resetCamera={resetCamera} />
 
         <div className="h-[100%] fixed">
           <Canvas
@@ -81,7 +114,7 @@ function Home() {
               camera.up.set(0, 0, 1);
               camera.far = 99999;
               camera.position.x = 10;
-              camera.position.z = 1;
+              camera.position.z = 0
               camera.updateProjectionMatrix();
               orbitControlsRef.current?.saveState(); // Records camera pos/rot for reset button
             }}>
@@ -91,11 +124,11 @@ function Home() {
             <ambientLight intensity={0.2} />
             <pointLight position={[10, 10, 10]} />
             <OrbitControls ref={orbitControlsRef} />
-            <axesHelper args={[10]} />
+            <axesHelper visible={showAxes} args={[10]} />
 
           </Canvas>
         </div>
-      </ParticleCountProvider>
+      </ControlsProvider>
     </>
 
   );

@@ -1,5 +1,5 @@
 import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip"
-import { SwitchCamera } from "lucide-react";
+import { SwitchCamera, Move3D } from "lucide-react";
 import { Shapes } from "lucide-react";
 
 
@@ -15,7 +15,7 @@ function ViewportButton(props: ViewportButtonProps) {
     <Tooltip>
       <TooltipTrigger
         onClick={props.action}
-        className=" cursor-pointer opacity-20 hover:opacity-100 transition-opacity duration-50 flex items-center justify-center rounded-md p-2">
+        className="cursor-pointer opacity-20 hover:opacity-100 transition-opacity duration-50 flex items-center justify-center rounded-md p-2">
 
         <props.icon color="black" size={24} />
       </TooltipTrigger>
@@ -29,13 +29,15 @@ function ViewportButton(props: ViewportButtonProps) {
 
 type ViewportOverlayProps = {
   resetCamera: () => void;
+  toggleAxes: () => void;
 };
 
 function ViewportOverlay(props: ViewportOverlayProps) {
   return (
     <div
       className="
-        bg-transparent hover:bg-[rgba(255,255,255,0.3)] transition-all duration-150 top-0 left-1/2 grid grid-cols-7 rounded-md"
+        bg-transparent hover:bg-[rgba(255,255,255,0.3)] transition-all duration-150 top-0 left-1/2 rounded-md
+        grid grid-cols-2"
       style={{
         zIndex: 1,
         position: "fixed",
@@ -46,7 +48,13 @@ function ViewportOverlay(props: ViewportOverlayProps) {
         icon={SwitchCamera}
         text={"Reset Camera Position"}
         action={props.resetCamera}
-        condition={true} />
+      />
+
+      <ViewportButton
+        icon={Move3D}
+        text={"Toggle Axes"}
+        action={props.toggleAxes}
+      />
     </div >
   )
 }

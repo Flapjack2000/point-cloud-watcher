@@ -12,15 +12,102 @@ import {
   SidebarRail,
   SidebarTrigger
 } from "@/components/ui/sidebar";
+import { Slider } from "./ui/slider";
 
+import { ControlsContext } from '@/app/page';
+import { useContext } from "react";
+import { max } from "three/tsl";
 
 export default function ControlSidebar() {
+  const context = useContext(ControlsContext)
+  const count = context?.count
+  const setCount = context?.setCount
+  const maxCount = context?.maxCount
+
+  const radius = context?.radius
+  const setRadius = context?.setRadius
+  const maxRadius = context?.maxRadius
+  const minRadius = context?.minRadius
+
+  const particleSize = context?.particleSize
+  const setParticleSize = context?.setParticleSize
+  const minParticleSize = context?.minParticleSize
+  const maxParticleSize = context?.maxParticleSize
 
   return (
     <>
-      <Sidebar>
+      <Sidebar className="font-[family-name:var(--font-orbitron)]">
+        <SidebarHeader>
+          <p className="text-xl font-bold text-center text-cyan-700 ">Controls</p>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <p className="p-2 pl-0">
+              <span title={"Max: " + String(maxCount)} className="font-bold">Particle Count:</span>
+            </p>
+            <input
+              className="w-1/2"
+              type="number"
+              step={1000}
+              min={0}
+              max={maxCount}
+              value={count}
+              onChange={(e) => {
+                if (setCount) {
+                  if ((typeof maxCount === "number") && (Number(e.target.value) >= 0) && (Number(e.target.value) <= maxCount)) {
+                    setCount(Number(e.target.value))
+                  }
+
+                };
+              }}
+            />
+
+            <p className="p-2 pl-0">
+              <span className="font-bold">Radius:</span>
+            </p>
+            <input
+              className="w-1/2"
+              type="number"
+              step={1}
+              min={minRadius}
+              max={maxRadius}
+              value={radius}
+              onChange={(e) => {
+                if (setRadius) {
+                  if ((typeof maxRadius === "number" && typeof minRadius === "number") &&
+                    (Number(e.target.value) >= minRadius) &&
+                    (Number(e.target.value) <= maxRadius)) {
+                    setRadius(Number(e.target.value));
+                  }
+                };
+              }}
+            />
+
+            <p className="p-2 pl-0">
+              <span title={"Max: " + String(maxCount)} className="font-bold">Particle Size:</span>
+            </p>
+            <input
+              className="w-1/2"
+              type="number"
+              step={0.001}
+              min={minParticleSize}
+              max={maxParticleSize}
+              value={particleSize}
+              onChange={(e) => {
+                if (setParticleSize) {
+                  if ((typeof maxParticleSize === "number" && typeof minParticleSize === "number") &&
+                    (Number(e.target.value) >= minParticleSize) &&
+                    (Number(e.target.value) <= maxParticleSize)) {
+                    setParticleSize(Number(e.target.value));
+                  }
+                };
+              }}
+            />
+          </SidebarGroup>
+        </SidebarContent>
+
         <SidebarRail title="Toggle Sidebar (CTRL+B)" />
-      </Sidebar>
+      </Sidebar >
 
     </>
   )

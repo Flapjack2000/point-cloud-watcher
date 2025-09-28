@@ -13,7 +13,8 @@ const PCSphere: React.FC<PointCloudProps> = () => {
   const context = useContext(ControlsContext);
   const count = context?.count ?? 0;
   const particleSize = context?.particleSize ?? 0.01
-  const sphereRadius = context?.radius ?? 10
+  const sphereRadius = context?.radius ?? 2
+  const repeatColors = context?.repeatColors
 
 
   const mesh = useRef<THREE.Points>(null);
@@ -42,11 +43,21 @@ const PCSphere: React.FC<PointCloudProps> = () => {
       positions[i * 3 + 2] = z;
 
       // Color based on position
-      color.setHSL(
-        ((pos.radius / sphereRadius * 0.7) + 0.1), // Hue based on distance from center
-        1, // Full saturation
-        0.5 // Lightness variation
-      );
+      if (repeatColors) {
+        color.setHSL(
+          ((pos.radius / 2 * 0.7) + 0.1), // Hue based on distance from center
+          1, // Full saturation
+          0.5 // Lightness variation
+        );
+      }
+      else {
+        color.setHSL(
+          ((pos.radius / sphereRadius * 0.7) + 0.1), // Hue based on distance from center
+          1, // Full saturation
+          0.5 // Lightness variation
+        );
+      }
+
 
       colors[i * 3] = color.r;
       colors[i * 3 + 1] = color.g;
@@ -54,7 +65,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
     }
 
     return [positions, colors];
-  }, [count, sphereRadius]);
+  }, [count, sphereRadius, repeatColors]);
 
   // Animate the point cloud
   useFrame((state) => {

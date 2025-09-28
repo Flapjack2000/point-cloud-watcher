@@ -20,6 +20,10 @@ import { max } from "three/tsl";
 
 export default function ControlSidebar() {
   const context = useContext(ControlsContext)
+
+  const repeatColors = context?.repeatColors
+  const setRepeatColors = context?.setRepeatColors
+
   const count = context?.count
   const setCount = context?.setCount
   const maxCount = context?.maxCount
@@ -43,7 +47,12 @@ export default function ControlSidebar() {
         <SidebarContent>
           <SidebarGroup>
             <p className="p-2 pl-0">
-              <span title={"Max: " + String(maxCount)} className="font-bold">Particle Count:</span>
+              <span
+                title={"Max: " + String(maxCount)}
+                className="font-bold">
+                Particle Count:
+
+              </span>
             </p>
             <input
               className="w-1/2"
@@ -63,7 +72,12 @@ export default function ControlSidebar() {
             />
 
             <p className="p-2 pl-0">
-              <span className="font-bold">Radius:</span>
+              <span
+                title={"Max: " + String(maxRadius)}
+                className="font-bold">
+                Radius:
+
+              </span>
             </p>
             <input
               className="w-1/2"
@@ -84,7 +98,11 @@ export default function ControlSidebar() {
             />
 
             <p className="p-2 pl-0">
-              <span title={"Max: " + String(maxCount)} className="font-bold">Particle Size:</span>
+              <span
+                title={"Max: " + String(maxParticleSize)}
+                className="font-bold">
+                Particle Size:
+              </span>
             </p>
             <input
               className="w-1/2"
@@ -103,6 +121,22 @@ export default function ControlSidebar() {
                 };
               }}
             />
+
+            <p className="p-2 pl-0">
+              <span
+                title=""
+                className="pr-2 font-bold">
+                Banded Colors:
+              </span>
+              <input
+                type="checkbox"
+                checked={repeatColors}
+                onChange={() => {
+                  if (setRepeatColors) { setRepeatColors(!repeatColors); }
+                }}
+              />
+            </p>
+
           </SidebarGroup>
         </SidebarContent>
 

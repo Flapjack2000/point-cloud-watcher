@@ -15,9 +15,12 @@ import { OrbitControls } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
 
 type ControlsContextType = {
-  count: number
+  repeatColors: boolean;
+
+  count: number;
   maxCount: number;
   minCount: number;
+
   particleSize: number;
   maxParticleSize: number,
   minParticleSize: number,
@@ -26,6 +29,7 @@ type ControlsContextType = {
   maxRadius: number;
   minRadius: number;
 
+  setRepeatColors: React.Dispatch<React.SetStateAction<boolean>>;
   setCount: React.Dispatch<React.SetStateAction<number>>;
   setParticleSize: React.Dispatch<React.SetStateAction<number>>;
   setRadius: React.Dispatch<React.SetStateAction<number>>;
@@ -35,6 +39,8 @@ export const ControlsContext = createContext<ControlsContextType | undefined>(un
 
 function ControlsProvider({ children }: { children: React.ReactNode }) {
 
+  const [repeatColors, setRepeatColors] = useState(false)
+
   const [count, setCount] = useState(500000);
   const maxCount = 1000000;
   const minCount = 0;
@@ -43,13 +49,14 @@ function ControlsProvider({ children }: { children: React.ReactNode }) {
   const maxParticleSize = 1;
   const minParticleSize = 0.001;
 
-  const [radius, setRadius] = useState(2);
+  const [radius, setRadius] = useState(4);
   const maxRadius = 1000;
   const minRadius = 1;
 
-
-
   const controlsProp = {
+    repeatColors,
+    setRepeatColors,
+
     count,
     setCount,
     minCount,

@@ -48,10 +48,9 @@ export default function ControlSidebar() {
           <SidebarGroup>
             <p className="p-2 pl-0">
               <span
-                title={"Max: " + String(maxCount)}
+                title={`[${0}, ${maxCount}]`}
                 className="font-bold">
                 Particle Count:
-
               </span>
             </p>
             <input
@@ -73,7 +72,7 @@ export default function ControlSidebar() {
 
             <p className="p-2 pl-0">
               <span
-                title={"Max: " + String(maxRadius)}
+                title={`[${minRadius}, ${maxRadius}]`}
                 className="font-bold">
                 Radius:
 
@@ -99,7 +98,8 @@ export default function ControlSidebar() {
 
             <p className="p-2 pl-0">
               <span
-                title={"Max: " + String(maxParticleSize)}
+                // title={"Max: " + String(maxParticleSize)}
+                title={`[${minParticleSize}, ${maxParticleSize}]`}
                 className="font-bold">
                 Particle Size:
               </span>

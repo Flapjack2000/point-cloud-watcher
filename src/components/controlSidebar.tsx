@@ -12,11 +12,9 @@ import {
   SidebarRail,
   SidebarTrigger
 } from "@/components/ui/sidebar";
-import { Slider } from "./ui/slider";
 
 import { ControlsContext } from '@/app/page';
 import { useContext } from "react";
-import { max } from "three/tsl";
 
 export default function ControlSidebar() {
 
@@ -43,7 +41,7 @@ export default function ControlSidebar() {
     <>
       <Sidebar className="font-[family-name:var(--font-orbitron)]">
         <SidebarHeader>
-          <p className="text-xl font-bold text-center text-cyan-700 ">Controls</p>
+          <p className="text-xl font-bold text-center text-cyan-700 underline">Controls</p>
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup >

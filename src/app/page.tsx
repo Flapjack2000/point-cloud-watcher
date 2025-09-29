@@ -80,12 +80,17 @@ function ControlsProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { useContext } from "react";
+
 function Home() {
 
   const orbitControlsRef = useRef<OrbitControlsType | null>(null);
 
   const [showAxes, setShowAxes] = useState(true);
   const toggleAxes = () => { setShowAxes(!showAxes) }
+
+  const controls = useContext(ControlsContext);
+  const radius = controls?.radius;
 
   function resetCamera() {
     if (orbitControlsRef.current) {
@@ -130,7 +135,7 @@ function Home() {
 
             <ambientLight intensity={0.2} />
             <pointLight position={[10, 10, 10]} />
-            <OrbitControls ref={orbitControlsRef} />
+            <OrbitControls minDistance={.5} maxDistance={2000} ref={orbitControlsRef} />
             <axesHelper visible={showAxes} args={[10]} />
 
           </Canvas>

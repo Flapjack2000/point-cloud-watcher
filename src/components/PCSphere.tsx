@@ -14,8 +14,9 @@ const PCSphere: React.FC<PointCloudProps> = () => {
   const count = context?.count ?? 0;
   const particleSize = context?.particleSize ?? 0.01
   const sphereRadius = context?.radius ?? 2
-  const repeatColors = context?.repeatColors
 
+  const repeatColors = context?.repeatColors
+  const autoRotate = context?.autoRotate
 
   const mesh = useRef<THREE.Points>(null);
 
@@ -69,7 +70,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
 
   // Animate the point cloud
   useFrame((state) => {
-    if (mesh.current) {
+    if (mesh.current && autoRotate) {
       mesh.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
       mesh.current.rotation.y += 0.005;
       mesh.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;

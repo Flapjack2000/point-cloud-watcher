@@ -23,6 +23,9 @@ export default function ControlSidebar() {
   const repeatColors = context?.repeatColors
   const setRepeatColors = context?.setRepeatColors
 
+  const autoRotate = context?.autoRotate
+  const setAutoRotate = context?.setAutoRotate
+
   const count = context?.count
   const setCount = context?.setCount
   const maxCount = context?.maxCount
@@ -132,6 +135,21 @@ export default function ControlSidebar() {
                   checked={repeatColors}
                   onChange={() => {
                     if (setRepeatColors) { setRepeatColors(!repeatColors); }
+                  }}
+                />
+              </p>
+
+              <p className="p-2 pl-0">
+                <span
+                  title="Whether the point cloud should automatically rotate."
+                  className="pr-2 font-bold">
+                  Auto Rotate:
+                </span>
+                <input
+                  type="checkbox"
+                  checked={autoRotate}
+                  onChange={() => {
+                    if (setAutoRotate) { setAutoRotate(!autoRotate); }
                   }}
                 />
               </p>

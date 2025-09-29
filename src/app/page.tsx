@@ -16,6 +16,7 @@ import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
 
 type ControlsContextType = {
   repeatColors: boolean;
+  autoRotate: boolean;
 
   count: number;
   maxCount: number;
@@ -30,6 +31,8 @@ type ControlsContextType = {
   minRadius: number;
 
   setRepeatColors: React.Dispatch<React.SetStateAction<boolean>>;
+  setAutoRotate: React.Dispatch<React.SetStateAction<boolean>>;
+
   setCount: React.Dispatch<React.SetStateAction<number>>;
   setParticleSize: React.Dispatch<React.SetStateAction<number>>;
   setRadius: React.Dispatch<React.SetStateAction<number>>;
@@ -39,7 +42,8 @@ export const ControlsContext = createContext<ControlsContextType | undefined>(un
 
 function ControlsProvider({ children }: { children: React.ReactNode }) {
 
-  const [repeatColors, setRepeatColors] = useState(false)
+  const [repeatColors, setRepeatColors] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(true);
 
   const [count, setCount] = useState(500000);
   const maxCount = 1000000;
@@ -56,6 +60,9 @@ function ControlsProvider({ children }: { children: React.ReactNode }) {
   const controlsProp = {
     repeatColors,
     setRepeatColors,
+
+    autoRotate,
+    setAutoRotate,
 
     count,
     setCount,

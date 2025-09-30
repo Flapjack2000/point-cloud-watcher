@@ -15,30 +15,47 @@ import {
 
 import { ControlsContext } from '@/app/page';
 import { useContext } from "react";
+import { useThree } from "@react-three/fiber";
+import type { Camera } from "three";
+import * as THREE from "three";
 
 export default function ControlSidebar() {
 
-  const context = useContext(ControlsContext)
+  const context = useContext(ControlsContext);
+  const materialRef = context?.materialRef;
 
-  const repeatColors = context?.repeatColors
-  const setRepeatColors = context?.setRepeatColors
+  function applyTexture(path: string) {
+    const textureLoader = new THREE.TextureLoader();
+    const particleTexture = textureLoader.load(path);
+    if (materialRef && materialRef.current) {
+      materialRef.current.map = particleTexture;
+      materialRef.current.needsUpdate = true;
+    }
+  }
 
-  const autoRotate = context?.autoRotate
-  const setAutoRotate = context?.setAutoRotate
+  const count = context?.count;
+  const setCount = context?.setCount;
+  const maxCount = context?.maxCount;
 
-  const count = context?.count
-  const setCount = context?.setCount
-  const maxCount = context?.maxCount
+  const radius = context?.radius;
+  const setRadius = context?.setRadius;
+  const maxRadius = context?.maxRadius;
+  const minRadius = context?.minRadius;
 
-  const radius = context?.radius
-  const setRadius = context?.setRadius
-  const maxRadius = context?.maxRadius
-  const minRadius = context?.minRadius
+  const particleSize = context?.particleSize;
+  const setParticleSize = context?.setParticleSize;
+  const minParticleSize = context?.minParticleSize;
+  const maxParticleSize = context?.maxParticleSize;
 
-  const particleSize = context?.particleSize
-  const setParticleSize = context?.setParticleSize
-  const minParticleSize = context?.minParticleSize
-  const maxParticleSize = context?.maxParticleSize
+  const repeatColors = context?.repeatColors;
+  const setRepeatColors = context?.setRepeatColors;
+
+  const autoRotate = context?.autoRotate;
+  const setAutoRotate = context?.setAutoRotate;
+
+  // Find a way to get camera reference:
+  //    Add a different type of camera (ortho, persp) to Canvas and make ref for it?
+  // const camera = useThree((state): Camera => state.camera);
 
   return (
     <>
@@ -48,7 +65,8 @@ export default function ControlSidebar() {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup >
-            <form autoComplete="off" id="controlsForm">
+            <form autoComplete="off" id="controlsForm"
+              className="flex flex-col">
               <p className="p-2 pl-0">
                 <span
                   title={`[${0}, ${maxCount}]`}
@@ -153,6 +171,18 @@ export default function ControlSidebar() {
                   }}
                 />
               </p>
+
+              <button
+                className="w-3/4 border-2 border-cyan-700 cursor-pointer p-[.5] pl-0 font-bold"
+                onClick={(e) => {
+                  e.preventDefault();
+                  applyTexture(`https://picsum.photos/200/200?random=${Date.now()}`);
+                }}
+              >
+                Random Texture
+              </button>
+
+
             </form>
 
           </SidebarGroup>

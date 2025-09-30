@@ -1,15 +1,12 @@
 import React, { useRef, useMemo, useContext } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { ControlsContext } from '@/app/page';
 
-interface PointCloudProps {
-  count?: number;
-}
 
-const PCSphere: React.FC<PointCloudProps> = () => {
+const PCSphere: React.FC = () => {
   const context = useContext(ControlsContext);
   const count = context?.count ?? 0;
   const particleSize = context?.particleSize ?? 0.01
@@ -18,7 +15,9 @@ const PCSphere: React.FC<PointCloudProps> = () => {
   const repeatColors = context?.repeatColors
   const autoRotate = context?.autoRotate
 
+  const materialRef = context?.materialRef
   const mesh = useRef<THREE.Points>(null);
+
 
   // Generate random points in a sphere
   const [positions, colors] = useMemo(() => {
@@ -90,6 +89,7 @@ const PCSphere: React.FC<PointCloudProps> = () => {
         />
       </bufferGeometry>
       <pointsMaterial
+        ref={materialRef}
         size={particleSize}
         vertexColors
         transparent

@@ -1,9 +1,6 @@
 "use client"
 
-import { Card } from "@/components/ui/card";
 import { SidebarProvider } from "@/components/ui/sidebar";
-
-import { Shapes } from "lucide-react";
 
 import PCSphere from "../components/PCSphere"
 import ControlSidebar from "../components/controlSidebar"
@@ -13,8 +10,11 @@ import { useEffect, useState, useRef, createContext } from "react"
 import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsType } from 'three-stdlib'
+import * as THREE from "three";
 
 type ControlsContextType = {
+  materialRef: React.RefObject<THREE.PointsMaterial | null>;
+
   repeatColors: boolean;
   autoRotate: boolean;
 
@@ -42,6 +42,10 @@ export const ControlsContext = createContext<ControlsContextType | undefined>(un
 
 function ControlsProvider({ children }: { children: React.ReactNode }) {
 
+  const materialRef = useRef<THREE.PointsMaterial | null>(null);
+
+
+  // INITIAL VALUES
   const [repeatColors, setRepeatColors] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
 
@@ -57,7 +61,10 @@ function ControlsProvider({ children }: { children: React.ReactNode }) {
   const maxRadius = 1000;
   const minRadius = 1;
 
+  // Passed to sidebar
   const controlsProp = {
+    materialRef,
+
     repeatColors,
     setRepeatColors,
 
@@ -97,7 +104,7 @@ function Home() {
   const toggleAxes = () => { setShowAxes(!showAxes) }
 
   const controls = useContext(ControlsContext);
-  const radius = controls?.radius;
+  const radius = controls?.radius; // Make camera reset to a good view? camera.x = radius * 2?
 
   function resetCamera() {
     if (orbitControlsRef.current) {
